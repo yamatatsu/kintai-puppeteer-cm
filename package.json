@@ -1,0 +1,23 @@
+{
+  "name": "kintai",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "syukkin": "rm -f caps/*.png && node -r dotenv/config -r esbuild-register src/syukkin.ts",
+    "taikin": "rm -f caps/*.png && node -r dotenv/config -r esbuild-register src/taikin.ts"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^3.0.3",
+    "@types/puppeteer": "^5.4.4",
+    "dotenv": "^10.0.0",
+    "esbuild": "^0.13.3",
+    "esbuild-register": "^3.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "node-fetch": "^3.0.0",
+    "puppeteer": "^10.4.0"
+  }
+}
