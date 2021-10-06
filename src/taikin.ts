@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import pRetry from "p-retry";
 import { login, cap, notify } from "./lib";
 
 const { ID, PW, NOTIFY_URL } = process.env;
@@ -28,10 +29,8 @@ async function main() {
     await login(page, ID, PW);
 
     // 勤怠ボタン
-    await page.click(".record-clock-out");
-    await page.waitForFunction(
-      'document.querySelector("body").innerText.includes("退勤が完了しました")'
-    );
+    pRetry(clickKintai(page), { retries: 3 });
+
     await page.waitForTimeout(1000); // wait fade-in animation
     await _cap("1-0kintai");
   } catch (err) {
@@ -42,4 +41,13 @@ async function main() {
   await browser.close();
 
   await notify("たいきん", NOTIFY_URL);
+}
+
+function clickKintai(page: puppeteer.Page) {
+  return async () => {
+    await page.click(".record-clock-out");
+    await page.waitForFunction(
+      'document.querySelector("body").innerText.includes("退勤が完了しました")'
+    );
+  };
 }
