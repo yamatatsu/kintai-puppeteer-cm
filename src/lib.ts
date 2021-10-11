@@ -21,7 +21,11 @@ export async function login(page: puppeteer.Page, id: string, pw: string) {
   await page.click(".btn-control-message");
 
   // TOPページ表示を待つ
-  await page.waitForSelector("#buttons");
+  await page.waitForSelector("#buttons", { visible: true });
+  await page.waitForFunction(
+    'document.querySelector("body").innerText.includes("データを取得しました")'
+  );
+
   await _cap("0-3-top1");
 }
 
