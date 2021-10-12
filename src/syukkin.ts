@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import pRetry from "p-retry";
-import { login, cap, notify } from "./lib";
+import { calcOver, notify } from "./lib";
+import { KingOfTime } from "./KingOfTime";
 
 const { ID, PW, NOTIFY_URL } = process.env;
 
@@ -22,33 +23,22 @@ async function main() {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  const _cap = cap(page);
+  const kot = new KingOfTime(page);
 
   try {
-    // ログインしてトップページの表示待つ
-    await login(page, ID, PW);
+    await kot.login(ID, PW);
 
-    // 勤怠ボタン
-    pRetry(clickKintai(page), { retries: 3 });
+    await pRetry(() => kot.syukkin(), { retries: 3 });
 
-    await page.waitForTimeout(1000); // wait fade-in animation
-    await _cap("1-0kintai");
+    await kot.gotoTimecard();
+
+    const workingTimes = await kot.getWorkingTimes();
+    const over = calcOver(workingTimes);
+    await notify(`しゅっきん 現在: ${over}min`, NOTIFY_URL);
   } catch (err) {
-    await _cap("99-error");
+    await kot.cap("error");
     throw err;
   }
 
   await browser.close();
-
-  await notify("しゅっきん", NOTIFY_URL);
-}
-
-function clickKintai(page: puppeteer.Page) {
-  return async () => {
-    await page.click(".record-clock-in");
-    await page.waitForFunction(
-      'document.querySelector("body").innerText.includes("出勤が完了しました")',
-      { timeout: 2000 }
-    );
-  };
 }
