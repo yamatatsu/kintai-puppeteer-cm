@@ -5,7 +5,7 @@ const fetch = (...args: any[]) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 export function calcOver(workingTimes: number[]) {
-  const sum = workingTimes.reduce((acc, m) => acc + m);
+  const sum = workingTimes.reduce((acc, m) => acc + m, 0);
   const base = workingTimes.length * 8 * 60;
   const over = sum - base;
 
