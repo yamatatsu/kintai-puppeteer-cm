@@ -47,7 +47,7 @@ export class KingOfTime {
    * 働いた日数分の労働時間（分）を配列で返す
    */
   public async getWorkingTimes(): Promise<number[]> {
-    const texts = await this.getTexts("td.custom11 p");
+    const texts = await this.getTexts("td.custom6 p");
 
     const workingTimes = texts.map((t) => {
       const [hour, minute] = t.split(".").map(Number);
