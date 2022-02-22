@@ -39,7 +39,7 @@ export class KingOfTime {
     await this.page.waitForSelector(".menu-item", { visible: true });
     await this.cap("menu");
     await this.page.click(".menu-item");
-    await this.page.waitForSelector("td.custom11 p", { visible: true });
+    await this.page.waitForSelector("td.custom6 p", { visible: true });
     await this.cap("timecard");
   }
 
