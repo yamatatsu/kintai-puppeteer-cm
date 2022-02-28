@@ -34,7 +34,10 @@ async function main() {
 
     const workingTimes = await kot.getWorkingTimes();
     const over = calcOver(workingTimes);
-    await notify(`しゅっきん 現在: ${over}min`, NOTIFY_URL);
+
+    const text = `しゅっきん 現在: ${over}min`;
+    console.info(text);
+    await notify(text, NOTIFY_URL);
   } catch (err) {
     await kot.cap("error");
     throw err;
