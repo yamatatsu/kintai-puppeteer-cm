@@ -39,7 +39,7 @@ export class KingOfTime {
     await this.page.waitForSelector(".menu-item", { visible: true });
     await this.cap("menu");
     await this.page.click(".menu-item");
-    await this.page.waitForSelector("td.custom6 p", { visible: true });
+    await this.page.waitForSelector("td.custom5 p", { visible: true });
     await this.cap("timecard");
   }
 
@@ -47,7 +47,7 @@ export class KingOfTime {
    * 働いた日数分の労働時間（分）を配列で返す
    */
   public async getWorkingTimes(): Promise<number[]> {
-    const texts = await this.getTexts("td.custom6 p");
+    const texts = await this.getTexts("td.custom5 p");
 
     const workingTimes = texts.map((t) => {
       const [hour, minute] = t.split(".").map(Number);
