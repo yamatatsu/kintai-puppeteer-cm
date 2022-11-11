@@ -2,6 +2,4 @@
 
 cd `dirname $0`/../
 
-DRY_RUN=false
-
-yarn taikin
+DRY_RUN=false yarn taikin
