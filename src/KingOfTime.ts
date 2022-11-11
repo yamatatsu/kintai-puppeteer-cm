@@ -1,3 +1,4 @@
+import pRetry from "p-retry";
 import puppeteer from "puppeteer";
 
 const url = "https://s2.kingtime.jp/independent/recorder/personal/";
@@ -28,33 +29,73 @@ export class KingOfTime {
   }
 
   public async syukkin() {
-    await this.clickKintai(".record-clock-in", "出勤が完了しました");
+    await pRetry(
+      () => this.clickKintai(".record-clock-in", "出勤が完了しました"),
+      { retries: 3 }
+    );
   }
   public async taikin() {
-    await this.clickKintai(".record-clock-out", "退勤が完了しました");
+    await pRetry(
+      () => this.clickKintai(".record-clock-out", "退勤が完了しました"),
+      { retries: 3 }
+    );
   }
 
   public async gotoTimecard() {
-    await this.page.click("#menu_icon");
-    await this.page.waitForSelector(".menu-item", { visible: true });
-    await this.cap("menu");
-    await this.page.click(".menu-item");
-    await this.page.waitForSelector("td.custom5 p", { visible: true });
-    await this.cap("timecard");
+    await pRetry(
+      async () => {
+        await this.page.click("#menu_icon");
+        await this.page.waitForSelector(".menu-item", { visible: true });
+        await this.cap("menu");
+        await this.page.click(".menu-item");
+        await this.page.waitForSelector("td.custom5 p", { visible: true });
+        await this.cap("timecard");
+      },
+      { retries: 3 }
+    );
   }
 
   /**
    * 働いた日数分の労働時間（分）を配列で返す
    */
-  public async getWorkingTimes(): Promise<number[]> {
+  public async getWorkedTimes(): Promise<number[]> {
     const texts = await this.getTexts("td.custom5 p");
 
-    const workingTimes = texts.map((t) => {
+    const workedTimes = texts.map((t) => {
       const [hour, minute] = t.split(".").map(Number);
       return hour * 60 + minute;
     });
 
-    return workingTimes;
+    return workedTimes;
+  }
+
+  /**
+   * 営業日数を返す
+   */
+  public async getBusinessDayCount(): Promise<number> {
+    const texts = await this.getTexts("td.schedule p");
+
+    const count = texts.filter(
+      (t) => t === "【新】リモートワーク(コアタイムなし) (-)"
+    ).length;
+
+    return count;
+  }
+
+  /**
+   * 今日の出勤時刻(分)を返す
+   */
+  public async getStartTimeOfToday(): Promise<number> {
+    const texts = await this.getTexts(
+      'td[data-ht-sort-index="START_TIMERECORD"] p'
+    );
+
+    const [hour, minute] = texts
+      .slice(-1)[0]
+      .match(/\d+/g)
+      ?.map(Number) as number[];
+
+    return hour * 60 + minute;
   }
 
   public async cap(
@@ -88,8 +129,8 @@ export class KingOfTime {
       const text = await content?.jsonValue<string>();
       return text?.trim() ?? "";
     });
-    const textes = await Promise.all(textPromiseList);
-    return textes.filter(Boolean);
+    const texts = await Promise.all(textPromiseList);
+    return texts.filter(Boolean);
   }
 
   private async waitText(waitText: string) {

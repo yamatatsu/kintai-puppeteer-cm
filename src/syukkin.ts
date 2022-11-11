@@ -1,12 +1,31 @@
-import puppeteer from "puppeteer";
-import pRetry from "p-retry";
-import { calcOver, notify } from "./lib";
-import { KingOfTime } from "./KingOfTime";
+import { calcOver, notify, format } from "./lib";
+import useKingOfTime from "./useKingOfTime";
+import { getEnv } from "./env";
 
-const { ID, PW, NOTIFY_URL } = process.env;
+/** 休憩時間(分)  */
+const BREAK_TIME = 60;
 
 console.info("start");
-main()
+
+useKingOfTime(async (kot) => {
+  const { ID, PW, NOTIFY_URL, DRY_RUN } = getEnv();
+
+  await kot.login(ID, PW);
+
+  !DRY_RUN && (await kot.syukkin());
+
+  await kot.gotoTimecard();
+
+  const workedTimes = await kot.getWorkedTimes();
+  const businessDayCount = await kot.getBusinessDayCount();
+  const startTime = await kot.getStartTimeOfToday();
+
+  const text = genText(workedTimes, businessDayCount, startTime);
+
+  console.info(text);
+
+  !DRY_RUN && (await notify(text, NOTIFY_URL));
+})
   .then(() => {
     console.info("end");
     process.exit(0);
@@ -16,32 +35,63 @@ main()
     process.exit(1);
   });
 
-async function main() {
-  if (!ID) throw new Error("環境変数ないよ ID");
-  if (!PW) throw new Error("環境変数ないよ PW");
-  if (!NOTIFY_URL) throw new Error("環境変数ないよ NOTIFY_URL");
+// ========
+// lib
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  const kot = new KingOfTime(page);
+const genText = (
+  workedTimes: number[],
+  businessDayCount: number,
+  startTime: number
+) => {
+  const over = calcOver(workedTimes);
+  const teiji = hhmm(startTime + 8 * 60 + BREAK_TIME);
 
-  try {
-    await kot.login(ID, PW);
+  const neededTimeAverage = getNeededTimeAverage(workedTimes, businessDayCount);
+  const target = hhmm(startTime + neededTimeAverage + BREAK_TIME);
 
-    await pRetry(() => kot.syukkin(), { retries: 3 });
+  // TODO: 未実装
+  const existsMissStamp = false;
 
-    await kot.gotoTimecard();
+  const text = format(`
+      :rocket:しゅっきん！:rocket:${existsMissStamp ? " ⚠️もれあり⚠️" : ""}
+      げんじょう: *${over}min*
+      きょうのていじ：*${teiji}*
+      きょうのもくひょう： *${target}*
+    `);
+  return text;
+};
 
-    const workingTimes = await kot.getWorkingTimes();
-    const over = calcOver(workingTimes);
+const hhmm = (time: number) => {
+  const min = time % 60;
+  const hour = (time - min) / 60;
 
-    const text = `しゅっきん 現在: ${over}min`;
-    console.info(text);
-    await notify(text, NOTIFY_URL);
-  } catch (err) {
-    await kot.cap("error");
-    throw err;
-  }
+  const minStr = min.toString().padStart(2, "0");
+  const hourStr = hour.toString().padStart(2, "0");
 
-  await browser.close();
-}
+  return `${hourStr}:${minStr}`;
+};
+
+/**
+ * 平滑化した場合の必要労働時間
+ * 法定労働時間に足るための必要な労働時間を残日数で割ったもの(分)を返す
+ */
+const getNeededTimeAverage = (
+  workedTimes: number[],
+  businessDayCount: number
+) => {
+  const totalWorkedTime = workedTimes.reduce((acc, time) => acc + time);
+  const requiredTime = businessDayCount * 8 * 60;
+
+  const totalNeededTime = requiredTime - totalWorkedTime;
+  const restDayCount = businessDayCount - workedTimes.length;
+
+  console.log({
+    totalWorkedTime,
+    requiredTime,
+    totalNeededTime,
+    restDayCount,
+    neededTimeAverage: Math.ceil(totalNeededTime / restDayCount),
+  });
+
+  return Math.ceil(totalNeededTime / restDayCount);
+};
