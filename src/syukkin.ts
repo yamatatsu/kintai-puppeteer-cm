@@ -53,9 +53,11 @@ const genText = (
   const existsMissStamp = false;
 
   const text = format(`
-      :rocket:しゅっきん！:rocket:${existsMissStamp ? " ⚠️もれあり⚠️" : ""}
-      げんじょう: *${over}min*
-      きょうのていじ：*${teiji}*
+      しゅっきん！ :rocket:${
+        existsMissStamp ? " :warning:もれあり:warning:" : ""
+      }
+      げんじょう： *${over}min*
+      きょうのていじ： *${teiji}*
       きょうのもくひょう： *${target}*
     `);
   return text;
