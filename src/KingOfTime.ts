@@ -98,6 +98,14 @@ export class KingOfTime {
     return hour * 60 + minute;
   }
 
+  /**
+   * 勤怠漏れの日があるかどうか
+   */
+  public async hasMissStamp(): Promise<boolean> {
+    const errorCell = await this.page.$(".specific-uncomplete");
+    return !!errorCell;
+  }
+
   public async cap(
     imageName: string,
     captureOptions?: puppeteer.ScreenshotOptions

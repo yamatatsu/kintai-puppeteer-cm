@@ -16,8 +16,7 @@ useKingOfTime(async (kot) => {
   const workedTimes = await kot.getWorkedTimes();
   const over = calcOver(workedTimes);
 
-  // TODO: 未実装
-  const existsMissStamp = false;
+  const existsMissStamp = await kot.hasMissStamp();
 
   const text = format(`
       たいきん！ :zzz:${existsMissStamp ? " :warning:もれあり:warning:" : ""}

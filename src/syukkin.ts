@@ -19,8 +19,14 @@ useKingOfTime(async (kot) => {
   const workedTimes = await kot.getWorkedTimes();
   const businessDayCount = await kot.getBusinessDayCount();
   const startTime = await kot.getStartTimeOfToday();
+  const existsMissStamp = await kot.hasMissStamp();
 
-  const text = genText(workedTimes, businessDayCount, startTime);
+  const text = genText(
+    workedTimes,
+    businessDayCount,
+    startTime,
+    existsMissStamp
+  );
 
   console.info(text);
 
@@ -41,16 +47,14 @@ useKingOfTime(async (kot) => {
 const genText = (
   workedTimes: number[],
   businessDayCount: number,
-  startTime: number
+  startTime: number,
+  existsMissStamp: boolean
 ) => {
   const over = calcOver(workedTimes);
   const teiji = hhmm(startTime + 8 * 60 + BREAK_TIME);
 
   const neededTimeAverage = getNeededTimeAverage(workedTimes, businessDayCount);
   const target = hhmm(startTime + neededTimeAverage + BREAK_TIME);
-
-  // TODO: 未実装
-  const existsMissStamp = false;
 
   const text = format(`
       しゅっきん！ :rocket:${
@@ -86,14 +90,6 @@ const getNeededTimeAverage = (
 
   const totalNeededTime = requiredTime - totalWorkedTime;
   const restDayCount = businessDayCount - workedTimes.length;
-
-  console.log({
-    totalWorkedTime,
-    requiredTime,
-    totalNeededTime,
-    restDayCount,
-    neededTimeAverage: Math.ceil(totalNeededTime / restDayCount),
-  });
 
   return Math.ceil(totalNeededTime / restDayCount);
 };
