@@ -85,7 +85,7 @@ const getNeededTimeAverage = (
   workedTimes: number[],
   businessDayCount: number
 ) => {
-  const totalWorkedTime = workedTimes.reduce((acc, time) => acc + time);
+  const totalWorkedTime = workedTimes.reduce((acc, time) => acc + time, 0);
   const requiredTime = businessDayCount * 8 * 60;
 
   const totalNeededTime = requiredTime - totalWorkedTime;
