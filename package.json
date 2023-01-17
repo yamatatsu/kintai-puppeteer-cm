@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "@types/node-fetch": "^3.0.3",
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.1",
     "esbuild-register": "^3.4.2",
