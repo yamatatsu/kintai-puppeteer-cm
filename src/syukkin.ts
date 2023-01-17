@@ -27,12 +27,13 @@ useKingOfTime(async (kot) => {
     workedTimes,
     businessDayCount,
     startTime,
-    existsMissStamp
+    existsMissStamp,
+    DRY_RUN
   );
 
   console.info(text);
 
-  !DRY_RUN && (await notify(text, NOTIFY_URL));
+  await notify(text, NOTIFY_URL);
 })
   .then(() => {
     console.info("end");
@@ -50,7 +51,8 @@ const genText = (
   workedTimes: number[],
   businessDayCount: number,
   startTime: number,
-  existsMissStamp: boolean
+  existsMissStamp: boolean,
+  dryRun: boolean
 ) => {
   const over = calcOver(workedTimes);
   const teiji = hhmm(startTime + 8 * 60 + BREAK_TIME);
@@ -59,6 +61,7 @@ const genText = (
   const target = hhmm(startTime + neededTimeAverage + BREAK_TIME);
 
   const text = format(`
+      ${dryRun ? "DRY RUN!!!!\n" : ""}
       しゅっきん！ :rocket:${
         existsMissStamp ? " :warning:もれあり:warning:" : ""
       }

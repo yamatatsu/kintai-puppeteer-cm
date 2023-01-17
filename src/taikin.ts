@@ -21,12 +21,13 @@ useKingOfTime(async (kot) => {
   const existsMissStamp = await kot.hasMissStamp();
 
   const text = format(`
-      たいきん！ :zzz:${existsMissStamp ? " :warning:もれあり:warning:" : ""}
-      げんじょう： *${over}min*
-    `);
+    ${DRY_RUN ? "DRY RUN!!!" : ""}
+    たいきん！ :zzz:${existsMissStamp ? " :warning:もれあり:warning:" : ""}
+    げんじょう： *${over}min*
+  `);
   console.info(text);
 
-  !DRY_RUN && (await notify(text, NOTIFY_URL));
+  await notify(text, NOTIFY_URL);
 })
   .then(() => {
     console.info("end");
