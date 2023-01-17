@@ -1,5 +1,5 @@
 import pRetry from "p-retry";
-import puppeteer from "puppeteer";
+import * as puppeteer from "puppeteer";
 
 const url = "https://s2.kingtime.jp/independent/recorder/personal/";
 
@@ -134,7 +134,7 @@ export class KingOfTime {
     const elements = await this.page.$$(selector);
     const textPromiseList = elements.map(async (el) => {
       const content = await el.getProperty("textContent");
-      const text = await content?.jsonValue<string>();
+      const text = await content?.jsonValue();
       return text?.trim() ?? "";
     });
     const texts = await Promise.all(textPromiseList);

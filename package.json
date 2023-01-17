@@ -4,20 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "syukkin": "rm -f caps/*.png && node -r dotenv/config -r esbuild-register src/syukkin.ts",
-    "taikin": "rm -f caps/*.png && node -r dotenv/config -r esbuild-register src/taikin.ts"
+    "syukkin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/syukkin.ts",
+    "taikin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/taikin.ts"
   },
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "@types/node-fetch": "^3.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.3",
     "esbuild": "^0.14.23",
     "esbuild-register": "^3.3.2",
-    "prettier": "^2.5.1",
-    "typescript": "^4.5.5"
+    "prettier": "^2.8.3",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
-    "node-fetch": "^3.2.0",
-    "p-retry": "^5.0.0",
-    "puppeteer": "^13.4.0"
+    "node-fetch": "^3.3.0",
+    "p-retry": "^5.1.2",
+    "puppeteer": "^19.5.2"
   }
 }

@@ -1,8 +1,10 @@
-import { calcOver, notify, format } from "./lib";
+import { clearCapsDir, calcOver, notify, format } from "./lib";
 import useKingOfTime from "./useKingOfTime";
 import { getEnv } from "./env";
 
 console.info("start");
+
+clearCapsDir();
 
 useKingOfTime(async (kot) => {
   const { ID, PW, NOTIFY_URL, DRY_RUN } = getEnv();

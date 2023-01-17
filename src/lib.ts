@@ -1,4 +1,6 @@
 // import fetch from "node-fetch";
+import { rmSync, mkdirSync } from "fs";
+import { resolve } from "path";
 
 const fetch = (...args: any[]) =>
   // @ts-ignore
@@ -23,3 +25,9 @@ export const notify = async (text: string, url: string) => {
 };
 
 export const format = (str: string) => str.trim().replace(/\n\s+/g, "\n");
+
+export const clearCapsDir = () => {
+  const capsDirPath = resolve(__dirname, "../caps");
+  rmSync(capsDirPath, { recursive: true, force: true });
+  mkdirSync(capsDirPath, { recursive: true });
+};
