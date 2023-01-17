@@ -1,10 +1,6 @@
-// import fetch from "node-fetch";
+import fetch from "node-fetch";
 import { rmSync, mkdirSync } from "fs";
 import { resolve } from "path";
-
-const fetch = (...args: any[]) =>
-  // @ts-ignore
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 export function calcOver(workedTimes: number[]) {
   const sum = workedTimes.reduce((acc, m) => acc + m, 0);
