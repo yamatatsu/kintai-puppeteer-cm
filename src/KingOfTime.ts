@@ -1,3 +1,4 @@
+import {setTimeout} from 'node:timers/promises'
 import pRetry from "p-retry";
 import * as puppeteer from "puppeteer";
 
@@ -122,7 +123,7 @@ export class KingOfTime {
     await this.page.click(btnSelector);
     await this.waitText(waitText);
 
-    await this.page.waitForTimeout(1000); // wait fade-in animation
+    await setTimeout(1000); // wait fade-in animation
     await this.cap("kintai");
   }
 
