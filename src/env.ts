@@ -1,10 +1,9 @@
 export const getEnv = () => {
-  const { ID, PW, NOTIFY_URL, DRY_RUN } = process.env;
-  if (!ID) throw new Error("環境変数ないよ ID");
-  if (!PW) throw new Error("環境変数ないよ PW");
+  const { NOTIFY_URL, DRY_RUN, OP_ITEM_ID } = process.env;
   if (!NOTIFY_URL) throw new Error("環境変数ないよ NOTIFY_URL");
+  if (!OP_ITEM_ID) throw new Error("環境変数ないよ OP_ITEM_ID");
 
   const _DRY_RUN = DRY_RUN === "true" ? true : false;
 
-  return { ID, PW, NOTIFY_URL, DRY_RUN: _DRY_RUN };
+  return { NOTIFY_URL, DRY_RUN: _DRY_RUN, OP_ITEM_ID };
 };

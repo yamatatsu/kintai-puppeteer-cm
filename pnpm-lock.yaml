@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@1password/sdk':
+        specifier: ^0.2.0
+        version: 0.2.0
       node-fetch:
         specifier: ^3.3.0
         version: 3.3.2
@@ -38,6 +41,12 @@ importers:
         version: 5.5.4
 
 packages:
+
+  '@1password/sdk-core@0.2.0':
+    resolution: {integrity: sha512-VKrOQWXgUMRyidQnui0WtmjAiIJr2qmjJ8FV6NV1mn/A7ltAUlHPgYUYqKN0WkeZ89uGk+wP5WZM5evCk3EmWA==}
+
+  '@1password/sdk@0.2.0':
+    resolution: {integrity: sha512-UYOhJHDxmWUSw9fZFoee6jVUlNWrV6D4lvLcBfo5iFV6EvEda5bN7g0Bo4W38+uyadYz8telMVq6xOyT4fvZQA==}
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -681,6 +690,12 @@ packages:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
+
+  '@1password/sdk-core@0.2.0': {}
+
+  '@1password/sdk@0.2.0':
+    dependencies:
+      '@1password/sdk-core': 0.2.0
 
   '@babel/code-frame@7.24.7':
     dependencies:

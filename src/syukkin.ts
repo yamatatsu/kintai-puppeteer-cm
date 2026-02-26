@@ -1,6 +1,7 @@
 import { clearCapsDir, calcOver, notify, format } from "./lib";
 import useKingOfTime from "./useKingOfTime";
 import { getEnv } from "./env";
+import { getCredentials } from "./getCredentials";
 
 /** 休憩時間(分)  */
 const BREAK_TIME = 60;
@@ -10,9 +11,9 @@ console.info("start");
 clearCapsDir();
 
 useKingOfTime(async (kot) => {
-  const { ID, PW, NOTIFY_URL, DRY_RUN } = getEnv();
-
-  await kot.login(ID, PW);
+  const { NOTIFY_URL, DRY_RUN, OP_ITEM_ID } = getEnv();
+  const { id: ID, pw: PW, totp } = getCredentials(OP_ITEM_ID);
+  await kot.login(ID, PW, totp);
 
   !DRY_RUN && (await kot.syukkin());
 

@@ -9,7 +9,7 @@ export class KingOfTime {
 
   constructor(private readonly page: puppeteer.Page) {}
 
-  public async login(id: string, pw: string) {
+  public async login(id: string, pw: string, totp: string) {
     // ページ表示
     await this.page.goto(url);
     await this.cap("login");
@@ -20,6 +20,11 @@ export class KingOfTime {
     await this.cap("login-inputed");
 
     // ログイン
+    await this.page.click(".btn-control-message");
+
+    // 2段階認証
+    await this.page.waitForSelector("input#two_factor_authentication_code", { visible: true });
+    await this.page.type("input#two_factor_authentication_code", totp);
     await this.page.click(".btn-control-message");
 
     // TOPページ表示を待つ

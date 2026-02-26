@@ -16,6 +16,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@1password/sdk": "^0.2.0",
     "node-fetch": "^3.3.0",
     "p-retry": "^6.2.0",
     "puppeteer": "^22.14.0"
