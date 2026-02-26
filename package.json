@@ -1,24 +1,27 @@
 {
-  "name": "kintai",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "syukkin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/syukkin.ts",
-    "taikin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/taikin.ts"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "dotenv": "^16.0.3",
-    "esbuild": "^0.23.0",
-    "esbuild-register": "^3.6.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "@1password/sdk": "^0.2.0",
-    "node-fetch": "^3.3.0",
-    "p-retry": "^6.2.0",
-    "puppeteer": "^22.14.0"
-  }
+	"name": "kintai",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"syukkin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/syukkin.ts",
+		"taikin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/taikin.ts",
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"check": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4",
+		"@types/node": "^22.0.0",
+		"dotenv": "^16.0.3",
+		"esbuild": "^0.23.0",
+		"esbuild-register": "^3.6.0",
+		"typescript": "^5.5.4"
+	},
+	"dependencies": {
+		"@1password/sdk": "^0.2.0",
+		"node-fetch": "^3.3.0",
+		"p-retry": "^6.2.0",
+		"puppeteer": "^22.14.0"
+	}
 }

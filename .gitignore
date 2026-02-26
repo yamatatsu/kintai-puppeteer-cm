@@ -64,3 +64,5 @@ jspm_packages/
 .cache
 
 caps/*.png
+
+.claude

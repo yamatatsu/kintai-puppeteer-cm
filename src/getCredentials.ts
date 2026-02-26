@@ -1,18 +1,18 @@
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
 
 type Credentials = {
-  id: string;
-  pw: string;
-  totp: string;
+	id: string;
+	pw: string;
+	totp: string;
 };
 
 export const getCredentials = (opItemId: string): Credentials => {
-  const json = execSync(`op item get ${opItemId} --format json`).toString();
-  const { fields } = JSON.parse(json);
+	const json = execSync(`op item get ${opItemId} --format json`).toString();
+	const { fields } = JSON.parse(json);
 
-  return {
-    id: fields[0].value,
-    pw: fields[1].value,
-    totp: fields[3].totp,
-  };
+	return {
+		id: fields[0].value,
+		pw: fields[1].value,
+		totp: fields[3].totp,
+	};
 };
