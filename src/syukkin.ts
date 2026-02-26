@@ -8,11 +8,12 @@ const BREAK_TIME = 60;
 
 console.info("start");
 
+const { NOTIFY_URL, DRY_RUN, OP_ITEM_ID } = getEnv();
+const { id: ID, pw: PW, totp } = getCredentials(OP_ITEM_ID);
+
 clearCapsDir();
 
 useKingOfTime(async (kot) => {
-	const { NOTIFY_URL, DRY_RUN, OP_ITEM_ID } = getEnv();
-	const { id: ID, pw: PW, totp } = getCredentials(OP_ITEM_ID);
 	await kot.login(ID, PW, totp);
 
 	!DRY_RUN && (await kot.syukkin());

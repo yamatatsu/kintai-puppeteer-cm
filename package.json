@@ -4,22 +4,18 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"syukkin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/syukkin.ts",
-		"taikin": "env DRY_RUN=true node -r dotenv/config -r esbuild-register src/taikin.ts",
+		"syukkin": "env DRY_RUN=true bun src/syukkin.ts",
+		"taikin": "env DRY_RUN=true bun src/taikin.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --write ."
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4",
-		"@types/node": "^25.3.1",
-		"dotenv": "^17.3.1",
-		"esbuild": "^0.27.3",
-		"esbuild-register": "^3.6.0",
+		"@types/bun": "latest",
 		"typescript": "^5.9.3"
 	},
 	"dependencies": {
-		"node-fetch": "^3.3.0",
 		"p-retry": "^7.1.1",
 		"puppeteer": "^24.37.5"
 	}

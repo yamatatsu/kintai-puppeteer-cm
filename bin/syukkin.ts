@@ -1,3 +1,3 @@
-#!/usr/bin/env node -r dotenv/config -r esbuild-register
+#!/usr/bin/env bun
 
 import "../src/syukkin";

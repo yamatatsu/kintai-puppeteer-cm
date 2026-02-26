@@ -1,6 +1,5 @@
 import { mkdirSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
-import fetch from "node-fetch";
 
 export function calcOver(workedTimes: number[]) {
 	const sum = workedTimes.reduce((acc, m) => acc + m, 0);

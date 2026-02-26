@@ -11,9 +11,13 @@ export default async function useKingOfTime(
 	try {
 		await callback(kot);
 	} catch (err) {
-		await kot.cap("error");
+		try {
+			await kot.cap("error");
+		} catch {
+			// page may already be closed; ignore to preserve original error
+		}
 		throw err;
+	} finally {
+		await browser.close();
 	}
-
-	await browser.close();
 }
