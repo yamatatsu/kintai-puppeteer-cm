@@ -17,6 +17,9 @@
 	},
 	"dependencies": {
 		"p-retry": "^7.1.1",
-		"puppeteer": "^24.37.5"
+		"puppeteer": "^24.42.0"
+	},
+	"overrides": {
+		"basic-ftp": "^6.0.0"
 	}
 }
