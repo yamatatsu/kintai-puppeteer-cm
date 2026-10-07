@@ -17,7 +17,7 @@
 		"typescript": "^7.0.2"
 	},
 	"dependencies": {
-		"p-retry": "^7.1.1",
+		"p-retry": "^8.0.1",
 		"puppeteer": "^24.42.0"
 	},
 	"overrides": {

@@ -5,7 +5,7 @@
     "": {
       "name": "kintai",
       "dependencies": {
-        "p-retry": "^7.1.1",
+        "p-retry": "^8.0.1",
         "puppeteer": "^24.42.0",
       },
       "devDependencies": {
@@ -205,7 +205,7 @@
 
     "once": ["once@1.4.0", "https://npm.flatt.tech/once/-/once-1.4.0.tgz", { "dependencies": { "wrappy": "1.0.2" } }, "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w=="],
 
-    "p-retry": ["p-retry@7.1.1", "https://npm.flatt.tech/p-retry/-/p-retry-7.1.1.tgz", { "dependencies": { "is-network-error": "1.3.0" } }, "sha512-J5ApzjyRkkf601HpEeykoiCvzHQjWxPAHhyjFcEUP2SWq0+35NKh8TLhpLw+Dkq5TZBFvUM6UigdE9hIVYTl5w=="],
+    "p-retry": ["p-retry@8.0.1", "https://npm.flatt.tech/p-retry/-/p-retry-8.0.1.tgz", { "dependencies": { "is-network-error": "^1.3.0" } }, "sha512-NAigyu8hfvJe7MsS18mnc4is0MZtau3QMdBklaJKK23oBQb6occO3UPM3vHmTckW8KhfyjMZaUOqdTFEYliHgg=="],
 
     "pac-proxy-agent": ["pac-proxy-agent@7.2.0", "https://npm.flatt.tech/pac-proxy-agent/-/pac-proxy-agent-7.2.0.tgz", { "dependencies": { "@tootallnate/quickjs-emscripten": "0.23.0", "agent-base": "7.1.4", "debug": "4.4.3", "get-uri": "6.0.5", "http-proxy-agent": "7.0.2", "https-proxy-agent": "7.0.6", "pac-resolver": "7.0.1", "socks-proxy-agent": "8.0.5" } }, "sha512-TEB8ESquiLMc0lV8vcd5Ql/JAKAoyzHFXaStwjkzpOpC5Yv+pIzLfHvjTSdf3vpa2bMiUQrg9i6276yn8666aA=="],
 
