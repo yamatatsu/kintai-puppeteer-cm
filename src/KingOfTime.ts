@@ -98,11 +98,16 @@ export class KingOfTime {
 			'td[data-ht-sort-index="START_TIMERECORD"] p',
 		);
 
-		const [hour, minute] = texts
-			.slice(-1)[0]
-			.match(/\d+/g)
-			?.map(Number) as number[];
+		// "[申]" のように時刻を含まないセルがあるため、時刻を含む最後のセルを使う
+		const match = texts
+			.map((t) => t.match(/(\d{1,2}):(\d{2})/))
+			.filter((m) => m !== null)
+			.at(-1);
+		if (!match) {
+			throw new Error(`出勤時刻が見つかりません: ${JSON.stringify(texts)}`);
+		}
 
+		const [, hour, minute] = match.map(Number);
 		return hour * 60 + minute;
 	}
 
