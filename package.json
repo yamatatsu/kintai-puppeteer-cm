@@ -8,12 +8,13 @@
 		"taikin": "env DRY_RUN=true bun src/taikin.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
-		"check": "biome check --write ."
+		"typecheck": "tsc --noEmit",
+		"check": "biome check --write . && bun run typecheck"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.4",
-		"@types/bun": "latest",
-		"typescript": "^5.9.3"
+		"@biomejs/biome": "^2.5.15",
+		"@types/bun": "1.4.2",
+		"typescript": "^7.0.2"
 	},
 	"dependencies": {
 		"p-retry": "^7.1.1",
