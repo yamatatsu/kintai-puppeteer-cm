@@ -6,8 +6,11 @@ const url = "https://s2.kingtime.jp/independent/recorder/personal/";
 
 export class KingOfTime {
 	private capCount = 1;
+	private readonly page: puppeteer.Page;
 
-	constructor(private readonly page: puppeteer.Page) {}
+	constructor(page: puppeteer.Page) {
+		this.page = page;
+	}
 
 	public async login(id: string, pw: string, totp: string) {
 		// ページ表示

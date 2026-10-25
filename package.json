@@ -1,32 +1,34 @@
 {
 	"name": "kintai",
 	"version": "1.0.0",
-	"main": "index.js",
 	"license": "MIT",
+	"type": "module",
 	"scripts": {
-		"syukkin": "env DRY_RUN=true bun src/syukkin.ts",
-		"taikin": "env DRY_RUN=true bun src/taikin.ts",
+		"syukkin": "DRY_RUN=true node --env-file-if-exists=.env src/syukkin.ts",
+		"taikin": "DRY_RUN=true node --env-file-if-exists=.env src/taikin.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"typecheck": "tsc --noEmit",
-		"check": "biome check --write . && bun run typecheck"
+		"check": "biome check --write . && pnpm run typecheck"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
-		"@types/bun": "1.4.2",
+		"@types/node": "^24.19.2",
 		"typescript": "^7.0.2"
 	},
 	"dependencies": {
 		"p-retry": "^8.0.1",
 		"puppeteer": "^25.12.0"
 	},
-	"overrides": {
-		"basic-ftp": "^6.0.0"
-	},
 	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "24.22.1",
+			"onFail": "download"
+		},
 		"packageManager": {
-			"name": "bun",
-			"version": "1.4.4",
+			"name": "pnpm",
+			"version": "12.15.0",
 			"onFail": "download"
 		}
 	}

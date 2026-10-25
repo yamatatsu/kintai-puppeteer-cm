@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { KingOfTime } from "./KingOfTime";
+import { KingOfTime } from "./KingOfTime.ts";
 
 export default async function useKingOfTime(
 	callback: (page: KingOfTime) => Promise<void>,

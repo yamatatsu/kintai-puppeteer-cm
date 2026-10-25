@@ -1,7 +1,7 @@
-import { getEnv } from "./env";
-import { getCredentials } from "./getCredentials";
-import { calcOver, clearCapsDir, format, notify } from "./lib";
-import useKingOfTime from "./useKingOfTime";
+import { getEnv } from "./env.ts";
+import { getCredentials } from "./getCredentials.ts";
+import { calcOver, clearCapsDir, format, notify } from "./lib.ts";
+import useKingOfTime from "./useKingOfTime.ts";
 
 /** 休憩時間(分)  */
 const BREAK_TIME = 60;

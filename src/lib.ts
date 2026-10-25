@@ -22,7 +22,7 @@ export const notify = async (text: string, url: string) => {
 export const format = (str: string) => str.trim().replace(/\n\s+/g, "\n");
 
 export const clearCapsDir = () => {
-	const capsDirPath = resolve(__dirname, "../caps");
+	const capsDirPath = resolve(import.meta.dirname, "../caps");
 	rmSync(capsDirPath, { recursive: true, force: true });
 	mkdirSync(capsDirPath, { recursive: true });
 };

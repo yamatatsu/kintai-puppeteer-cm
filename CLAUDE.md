@@ -8,23 +8,23 @@ This project automates attendance recording (勤怠打刻) on the King of Time (
 
 ## Runtime
 
-The project runs on [Bun](https://bun.sh). The Bun version is pinned in `package.json#devEngines.packageManager` and managed by [Vite+](https://viteplus.dev/guide/env) (`vp env pin bun@<version>` to change it). TypeScript is executed directly by Bun (no build step needed).
+The project runs on Node.js with pnpm. Both versions are pinned in `package.json#devEngines` (`runtime` / `packageManager`) and managed by [Vite+](https://viteplus.dev/guide/env) (`vp env pin <node-version> pnpm@<version>` to change them). TypeScript is executed directly by Node's built-in type stripping (no build step needed), so only erasable TypeScript syntax is allowed (no enums, namespaces, or constructor parameter properties) and relative imports must include the `.ts` extension.
 
 ## Commands
 
 ```bash
-bun install
+pnpm install
 
 # Dry-run (no actual stamp)
-bun run syukkin   # DRY_RUN=true
-bun run taikin    # DRY_RUN=true
+pnpm syukkin   # DRY_RUN=true
+pnpm taikin    # DRY_RUN=true
 
 # Actual execution
 ./bin/syukkin
 ./bin/taikin
 
 # Lint / format / typecheck (Biome + tsc)
-bun run check
+pnpm check
 ```
 
 ## Architecture
@@ -35,12 +35,12 @@ bun run check
 - **`src/getCredentials.ts`** — Fetches ID / password / TOTP from 1Password via `op item get <OP_ITEM_ID>`.
 - **`src/lib.ts`** — Shared utilities: `calcOver` (overtime minutes), `notify` (webhook POST), `format` (text cleanup), `clearCapsDir` (screenshot dir reset).
 - **`src/env.ts`** — Reads and validates env vars (`OP_ITEM_ID`, `NOTIFY_URL`, `DRY_RUN`).
-- **`bin/syukkin` / `bin/taikin`** — Bash wrappers that `cd` to the repo root and run `bin/*.ts` (Bun shebang scripts that import the entry points).
+- **`bin/syukkin` / `bin/taikin`** — Bash wrappers that `cd` to the repo root and run `bin/*.ts` (Node shebang scripts that load `.env` and import the entry points).
 - **`caps/`** — Screenshot output directory (cleared on each run). Numbered screenshots are saved at each step for debugging.
 
 ## Environment Variables
 
-Loaded from `.env` (Bun loads it automatically; see `.env.example`):
+Loaded from `.env` via Node's `--env-file-if-exists` (see `.env.example`):
 
 | Variable     | Description                                  |
 |--------------|----------------------------------------------|

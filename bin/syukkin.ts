@@ -1,3 +1,3 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --env-file-if-exists=.env
 
-import "../src/syukkin";
+import "../src/syukkin.ts";

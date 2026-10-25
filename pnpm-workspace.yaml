@@ -1,0 +1,5 @@
+allowBuilds:
+  puppeteer: true
+
+overrides:
+  basic-ftp: ^6.0.0

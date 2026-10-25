@@ -1,3 +1,3 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --env-file-if-exists=.env
 
-import "../src/taikin";
+import "../src/taikin.ts";
