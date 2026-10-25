@@ -22,5 +22,12 @@
 	},
 	"overrides": {
 		"basic-ftp": "^6.0.0"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "bun",
+			"version": "1.4.4",
+			"onFail": "download"
+		}
 	}
 }
