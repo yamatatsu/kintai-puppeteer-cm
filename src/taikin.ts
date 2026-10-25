@@ -11,31 +11,31 @@ const { id: ID, pw: PW, totp } = getCredentials(OP_ITEM_ID);
 clearCapsDir();
 
 useKingOfTime(async (kot) => {
-	await kot.login(ID, PW, totp);
+  await kot.login(ID, PW, totp);
 
-	if (!DRY_RUN) await kot.taikin();
+  if (!DRY_RUN) await kot.taikin();
 
-	await kot.gotoTimecard();
+  await kot.gotoTimecard();
 
-	const workedTimes = await kot.getWorkedTimes();
-	const over = calcOver(workedTimes);
+  const workedTimes = await kot.getWorkedTimes();
+  const over = calcOver(workedTimes);
 
-	const existsMissStamp = await kot.hasMissStamp();
+  const existsMissStamp = await kot.hasMissStamp();
 
-	const text = format(`
+  const text = format(`
     ${DRY_RUN ? "DRY RUN!!!" : ""}
     たいきん！ :zzz:${existsMissStamp ? " :warning:もれあり:warning:" : ""}
     げんじょう： *${over}min*
   `);
-	console.info(text);
+  console.info(text);
 
-	await notify(text, NOTIFY_URL);
+  await notify(text, NOTIFY_URL);
 })
-	.then(() => {
-		console.info("end");
-		process.exit(0);
-	})
-	.catch((err) => {
-		console.error(err);
-		process.exit(1);
-	});
+  .then(() => {
+    console.info("end");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

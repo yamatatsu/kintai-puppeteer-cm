@@ -14,89 +14,78 @@ const { id: ID, pw: PW, totp } = getCredentials(OP_ITEM_ID);
 clearCapsDir();
 
 useKingOfTime(async (kot) => {
-	await kot.login(ID, PW, totp);
+  await kot.login(ID, PW, totp);
 
-	if (!DRY_RUN) await kot.syukkin();
+  if (!DRY_RUN) await kot.syukkin();
 
-	await kot.gotoTimecard();
+  await kot.gotoTimecard();
 
-	const workedTimes = await kot.getWorkedTimes();
-	const businessDayCount = await kot.getBusinessDayCount();
-	const startTime = await kot.getStartTimeOfToday();
-	const existsMissStamp = await kot.hasMissStamp();
+  const workedTimes = await kot.getWorkedTimes();
+  const businessDayCount = await kot.getBusinessDayCount();
+  const startTime = await kot.getStartTimeOfToday();
+  const existsMissStamp = await kot.hasMissStamp();
 
-	const text = genText(
-		workedTimes,
-		businessDayCount,
-		startTime,
-		existsMissStamp,
-		DRY_RUN,
-	);
+  const text = genText(workedTimes, businessDayCount, startTime, existsMissStamp, DRY_RUN);
 
-	console.info(text);
+  console.info(text);
 
-	await notify(text, NOTIFY_URL);
+  await notify(text, NOTIFY_URL);
 })
-	.then(() => {
-		console.info("end");
-		process.exit(0);
-	})
-	.catch((err) => {
-		console.error(err);
-		process.exit(1);
-	});
+  .then(() => {
+    console.info("end");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
 
 // ========
 // lib
 
 const genText = (
-	workedTimes: number[],
-	businessDayCount: number,
-	startTime: number,
-	existsMissStamp: boolean,
-	dryRun: boolean,
+  workedTimes: number[],
+  businessDayCount: number,
+  startTime: number,
+  existsMissStamp: boolean,
+  dryRun: boolean,
 ) => {
-	const over = calcOver(workedTimes);
-	const teiji = hhmm(startTime + 8 * 60 + BREAK_TIME);
+  const over = calcOver(workedTimes);
+  const teiji = hhmm(startTime + 8 * 60 + BREAK_TIME);
 
-	const neededTimeAverage = getNeededTimeAverage(workedTimes, businessDayCount);
-	const target = hhmm(startTime + neededTimeAverage + BREAK_TIME);
+  const neededTimeAverage = getNeededTimeAverage(workedTimes, businessDayCount);
+  const target = hhmm(startTime + neededTimeAverage + BREAK_TIME);
 
-	const text = format(`
+  const text = format(`
       ${dryRun ? "DRY RUN!!!!\n" : ""}
-      しゅっきん！ :rocket:${
-				existsMissStamp ? " :warning:もれあり:warning:" : ""
-			}
+      しゅっきん！ :rocket:${existsMissStamp ? " :warning:もれあり:warning:" : ""}
       げんじょう： *${over}min*
       きょうのていじ： *${teiji}*
       きょうのもくひょう： *${target}*
     `);
-	return text;
+  return text;
 };
 
 const hhmm = (time: number) => {
-	const min = time % 60;
-	const hour = (time - min) / 60;
+  const min = time % 60;
+  const hour = (time - min) / 60;
 
-	const minStr = min.toString().padStart(2, "0");
-	const hourStr = hour.toString().padStart(2, "0");
+  const minStr = min.toString().padStart(2, "0");
+  const hourStr = hour.toString().padStart(2, "0");
 
-	return `${hourStr}:${minStr}`;
+  return `${hourStr}:${minStr}`;
 };
 
 /**
  * 平滑化した場合の必要労働時間
  * 法定労働時間に足るための必要な労働時間を残日数で割ったもの(分)を返す
  */
-const getNeededTimeAverage = (
-	workedTimes: number[],
-	businessDayCount: number,
-) => {
-	const totalWorkedTime = workedTimes.reduce((acc, time) => acc + time, 0);
-	const requiredTime = businessDayCount * 8 * 60;
+const getNeededTimeAverage = (workedTimes: number[], businessDayCount: number) => {
+  const totalWorkedTime = workedTimes.reduce((acc, time) => acc + time, 0);
+  const requiredTime = businessDayCount * 8 * 60;
 
-	const totalNeededTime = requiredTime - totalWorkedTime;
-	const restDayCount = businessDayCount - workedTimes.length;
+  const totalNeededTime = requiredTime - totalWorkedTime;
+  const restDayCount = businessDayCount - workedTimes.length;
 
-	return Math.ceil(totalNeededTime / restDayCount);
+  return Math.ceil(totalNeededTime / restDayCount);
 };

@@ -45,11 +45,11 @@ A pre-commit hook (`.vite-hooks/pre-commit` → `vp staged`) runs `vp check --fi
 
 Loaded from `.env` via Node's `--env-file-if-exists` (see `.env.example`):
 
-| Variable     | Description                                  |
-|--------------|----------------------------------------------|
+| Variable     | Description                                      |
+| ------------ | ------------------------------------------------ |
 | `OP_ITEM_ID` | 1Password item ID holding KingOfTime credentials |
-| `NOTIFY_URL` | Slack incoming webhook URL                   |
-| `DRY_RUN`    | Set to `"true"` to skip the stamp            |
+| `NOTIFY_URL` | Slack incoming webhook URL                       |
+| `DRY_RUN`    | Set to `"true"` to skip the stamp                |
 
 The 1Password CLI (`op`) must be installed and signed in.
 
