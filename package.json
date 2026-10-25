@@ -1,35 +1,31 @@
 {
-	"name": "kintai",
-	"version": "1.0.0",
-	"license": "MIT",
-	"type": "module",
-	"scripts": {
-		"syukkin": "DRY_RUN=true node --env-file-if-exists=.env src/syukkin.ts",
-		"taikin": "DRY_RUN=true node --env-file-if-exists=.env src/taikin.ts",
-		"format": "biome format --write .",
-		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit",
-		"check": "biome check --write . && pnpm run typecheck"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.5.15",
-		"@types/node": "^24.19.2",
-		"typescript": "^7.0.2"
-	},
-	"dependencies": {
-		"p-retry": "^8.0.1",
-		"puppeteer": "^25.12.0"
-	},
-	"devEngines": {
-		"runtime": {
-			"name": "node",
-			"version": "24.22.1",
-			"onFail": "download"
-		},
-		"packageManager": {
-			"name": "pnpm",
-			"version": "12.15.0",
-			"onFail": "download"
-		}
-	}
+  "name": "kintai",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "syukkin": "DRY_RUN=true node --env-file-if-exists=.env src/syukkin.ts",
+    "taikin": "DRY_RUN=true node --env-file-if-exists=.env src/taikin.ts",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "p-retry": "^8.0.1",
+    "puppeteer": "^25.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.15.0",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "24.22.1",
+      "onFail": "download"
+    }
+  }
 }

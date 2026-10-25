@@ -16,7 +16,7 @@ clearCapsDir();
 useKingOfTime(async (kot) => {
 	await kot.login(ID, PW, totp);
 
-	!DRY_RUN && (await kot.syukkin());
+	if (!DRY_RUN) await kot.syukkin();
 
 	await kot.gotoTimecard();
 
